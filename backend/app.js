@@ -10,15 +10,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
-
-
-
+app.use(express.json());
+app.use((req,res,next)=>{
+    res.header("Access-Control-Allow-Origin","*");
+    res.header("Access-Control-Allow-Headers","*");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    next();
+})
 app.get("/", (req, res)=>{
     res.render ("/frontend/admin.html");
 })
-app.post('/submit',function(req,res){
-    console.log('requested');
-    res.send()
+app.post('/create_admin',function(req,res){
+    console.log('admin creation requested');
+    console.log(req.body)
+    var response_data = {
+        ...req.body,
+        created:"true"
+    }
+    res.json(response_data)
 });
 
 
